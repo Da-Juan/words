@@ -23,7 +23,7 @@ DEFAULT_LANG = "en_US"
 def main(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
     d = enchant.Dict(dictionary)
 
-    for w in sorted(set(["".join(p) for p in itertools.permutations(letters, length)])):
+    for w in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
         if d.check(w):
             click.echo(w)
 
