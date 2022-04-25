@@ -1,6 +1,7 @@
 import itertools
 
 import click
+
 import enchant
 
 DEFAULT_LANG = "en_US"
