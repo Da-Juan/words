@@ -7,6 +7,16 @@ import enchant
 DEFAULT_LANG = "en_US"
 
 
+def solve(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
+    d = enchant.Dict(dictionary)
+    words = []
+
+    for w in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
+        if d.check(w):
+            words.append(w)
+    return words
+
+
 @click.command()
 @click.option(
     "-L", "--letters", type=str, required=True, help="Letters used in the word."
@@ -22,11 +32,8 @@ DEFAULT_LANG = "en_US"
     help=f"The language to search words (defaults to {DEFAULT_LANG})",
 )
 def main(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
-    d = enchant.Dict(dictionary)
-
-    for w in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
-        if d.check(w):
-            click.echo(w)
+    for word in solve(letters, length, dictionary):
+        click.echo(word)
 
 
 if __name__ == "__main__":

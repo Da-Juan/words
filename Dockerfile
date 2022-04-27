@@ -40,10 +40,10 @@ ENV PATH="/.venv/bin:$PATH"
 RUN useradd --create-home words
 WORKDIR /home/words
 USER words
+EXPOSE 8000
 
 # Install application into container
 COPY . .
 
 # Run the application
-ENTRYPOINT ["python", "words.py"]
-CMD ["--help"]
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]

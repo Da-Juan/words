@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 pyenchant = "*"
 click = "*"
+flask = "*"
+wtforms = "*"
+flask-wtf = "*"
+gunicorn = "*"
 
 [dev-packages]
 flake8-import-order = "*"
