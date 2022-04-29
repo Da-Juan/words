@@ -18,8 +18,16 @@ csrf = CSRFProtect(app)
 
 
 class WordsForm(FlaskForm):
-    letters = StringField("Letters", [InputRequired(), Length(min=2)])
-    length = IntegerField("Length", [InputRequired(), NumberRange(min=1)])
+    letters = StringField(
+        label="Letters list",
+        validators=[InputRequired(), Length(min=2)],
+        render_kw={"placeholder": "abcd"},
+    )
+    length = IntegerField(
+        label="Word length",
+        validators=[InputRequired(), NumberRange(min=1)],
+        render_kw={"placeholder": "0"},
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
