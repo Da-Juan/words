@@ -7,9 +7,17 @@ import enchant
 DEFAULT_LANG = "en_US"
 
 
-def solve(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
+def solve(
+    letters: str,
+    length: int,
+    dictionary: str = DEFAULT_LANG,
+    case_sensitive: bool = False,
+) -> None:
     d = enchant.Dict(dictionary)
     words = []
+
+    if not case_sensitive:
+        letters = letters.lower()
 
     for w in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
         if d.check(w):
@@ -31,8 +39,14 @@ def solve(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
     default=DEFAULT_LANG,
     help=f"The language to search words (defaults to {DEFAULT_LANG})",
 )
-def main(letters: str, length: int, dictionary: str = DEFAULT_LANG) -> None:
-    for word in solve(letters, length, dictionary):
+@click.option(
+    "-c/ ",
+    "--case-sensitive/--case-insensitive",
+    default=False,
+    help="Should search be case sensitive (defaults to insensitive).",
+)
+def main(letters: str, length: int, dictionary: str, case_sensitive: bool) -> None:
+    for word in solve(letters, length, dictionary, case_sensitive):
         click.echo(word)
 
 
