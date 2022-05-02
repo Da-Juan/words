@@ -1,9 +1,9 @@
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 
 from flask_wtf import FlaskForm
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFError, CSRFProtect
 
 from words import solve
 
@@ -28,6 +28,12 @@ class WordsForm(FlaskForm):
         validators=[InputRequired(), NumberRange(min=1)],
         render_kw={"placeholder": "0"},
     )
+
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(_):
+    """Redirect to index on CSRF Error."""
+    return redirect(url_for("index"))
 
 
 @app.route("/", methods=["GET", "POST"])
