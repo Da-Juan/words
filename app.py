@@ -31,7 +31,8 @@ class WordsForm(FlaskForm):
 
 
 @app.route("/", methods=["GET", "POST"])
-def hello_world():
+def index():
+    """Main page."""
     form = WordsForm(request.form)
     words = []
     if request.method == "POST" and form.validate():
