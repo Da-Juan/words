@@ -1,6 +1,13 @@
 import os
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
@@ -34,6 +41,13 @@ class WordsForm(FlaskForm):
 def handle_csrf_error(_):
     """Redirect to index on CSRF Error."""
     return redirect(url_for("index"))
+
+
+@app.route("/favicon.svg")
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml"
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
