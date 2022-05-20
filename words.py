@@ -10,7 +10,7 @@ DEFAULT_LANG = "en_US"
 def solve(
     letters: str,
     length: int,
-    dictionary: str = DEFAULT_LANG,
+    language: str = DEFAULT_LANG,
     case_sensitive: bool = False,
 ) -> list[str]:
     """
@@ -21,15 +21,15 @@ def solve(
     then return the list of found words.
     """
 
-    d = enchant.Dict(dictionary)
+    dictionary = enchant.Dict(language)
     words = []
 
     if not case_sensitive:
         letters = letters.lower()
 
-    for w in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
-        if d.check(w):
-            words.append(w)
+    for word in sorted(["".join(p) for p in set(itertools.permutations(letters, length))]):
+        if dictionary.check(word):
+            words.append(word)
     return words
 
 
@@ -42,7 +42,7 @@ def solve(
 )
 @click.option(
     "-d",
-    "--dictionary",
+    "--language",
     type=str,
     default=DEFAULT_LANG,
     help=f"The language to search words (defaults to {DEFAULT_LANG})",
@@ -53,11 +53,11 @@ def solve(
     default=False,
     help="Should search be case sensitive (defaults to insensitive).",
 )
-def main(letters: str, length: int, dictionary: str, case_sensitive: bool) -> None:
+def main(letters: str, length: int, language: str, case_sensitive: bool) -> None:
     """Run the solver from CLI."""
-    for word in solve(letters, length, dictionary, case_sensitive):
+    for word in solve(letters, length, language, case_sensitive):
         click.echo(word)
 
 
 if __name__ == "__main__":
-    main()
+    main()  # pylint: disable=E1120
