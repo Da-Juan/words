@@ -25,6 +25,8 @@ csrf = CSRFProtect(app)
 
 
 class WordsForm(FlaskForm):
+    """HTML form definition."""
+
     letters = StringField(
         label="Letters list",
         validators=[InputRequired(), Length(min=2)],
@@ -45,6 +47,7 @@ def handle_csrf_error(_):
 
 @app.route("/favicon.svg")
 def favicon():
+    """Send favicon."""
     return send_from_directory(
         os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml"
     )

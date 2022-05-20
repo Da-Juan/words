@@ -13,6 +13,14 @@ def solve(
     dictionary: str = DEFAULT_LANG,
     case_sensitive: bool = False,
 ) -> None:
+    """
+    Compute words from letters in a given language.
+
+    Compute all combinations of letters with the given length,
+    check if it's a valid word in the given language
+    then return the list of found words.
+    """
+
     d = enchant.Dict(dictionary)
     words = []
 
@@ -46,6 +54,7 @@ def solve(
     help="Should search be case sensitive (defaults to insensitive).",
 )
 def main(letters: str, length: int, dictionary: str, case_sensitive: bool) -> None:
+    """Run the solver from CLI."""
     for word in solve(letters, length, dictionary, case_sensitive):
         click.echo(word)
 
