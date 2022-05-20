@@ -34,12 +34,8 @@ def solve(
 
 
 @click.command()
-@click.option(
-    "-L", "--letters", type=str, required=True, help="Letters used in the word."
-)
-@click.option(
-    "-l", "--length", type=int, required=True, help="Length of the words to search."
-)
+@click.option("-L", "--letters", type=str, required=True, help="Letters used in the word.")
+@click.option("-l", "--length", type=int, required=True, help="Length of the words to search.")
 @click.option(
     "-d",
     "--language",

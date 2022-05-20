@@ -48,9 +48,7 @@ def handle_csrf_error(_):
 @app.route("/favicon.svg")
 def favicon():
     """Send favicon."""
-    return send_from_directory(
-        os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml"
-    )
+    return send_from_directory(os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml")
 
 
 @app.route("/", methods=["GET", "POST"])
