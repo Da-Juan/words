@@ -12,7 +12,7 @@ def solve(
     length: int,
     dictionary: str = DEFAULT_LANG,
     case_sensitive: bool = False,
-) -> None:
+) -> list[str]:
     """
     Compute words from letters in a given language.
 
