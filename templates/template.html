@@ -12,18 +12,20 @@
         pointer-events: none;
       }
 
-      form #clear-letters {
+      form #clear-field {
         position: absolute;
         border: none;
+        background-color: var(--bs-gray-400);
+        color: var(--bs-gray-700);
         display: block;
-        width: 32px;
-        height: 32px;
+        width: 2ex;
         line-height: 16px;
         font-size: 32px;
-        border-radius: 50%;
+        border-top-right-radius: 10%;
+        border-bottom-right-radius: 10%;
         top: 0;
         bottom: 0;
-        right: 20px;
+        right: 10px;
         margin: auto;
         padding: 0;
         outline: none;
@@ -44,13 +46,14 @@
           <div class="col form-floating mb-3">
             {{ form.letters(class="form-control form-control-lg", autocapitalize="off", autocomplete="off") }}
             {{ form.letters.label(class="mx-2") }}
-            <input type="button" id="clear-letters" onclick="clear_field('letters')" value="&times;">
+            <input type="button" id="clear-field" onclick="clear_field('letters')" value="&times;">
           </div>
           </div>
             <div class="row w-50">
           <div class="col form-floating mb-3 position-relative start-50">
             {{ form.length(class="form-control form-control-lg") }}
             {{ form.length.label(class="mx-2") }}
+            <input type="button" id="clear-field" onclick="clear_field('length')" value="&times;">
           </div>
           </div>
         <div class="row">
