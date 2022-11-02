@@ -4,13 +4,13 @@ import click
 
 import enchant
 
-DEFAULT_LANG = "en_US"
+from .constants import DEFAULT_LANGUAGE
 
 
 def solve(
     letters: str,
     length: int,
-    language: str = DEFAULT_LANG,
+    language: str = DEFAULT_LANGUAGE,
     case_sensitive: bool = False,
 ) -> list[str]:
     """
@@ -40,8 +40,8 @@ def solve(
     "-d",
     "--language",
     type=str,
-    default=DEFAULT_LANG,
-    help=f"The language to search words (defaults to {DEFAULT_LANG})",
+    default=DEFAULT_LANGUAGE,
+    help=f"The language to search words (defaults to {DEFAULT_LANGUAGE})",
 )
 @click.option(
     "-c/ ",

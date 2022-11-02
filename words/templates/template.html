@@ -33,15 +33,53 @@
         transition: .1s;
       }
 
+      img.icon {
+        height: 64px;
+      }
+
+      div.icon:after {
+        position: absolute;
+        content: '';
+        border-bottom: 1px solid #d2d7da;
+        width: 70%;
+        transform: translateX(-50%);
+        bottom: -15px;
+        left: 50%;
+      }
+
+      div.selected {
+        height: 3px;
+        background-color: var(--bs-primary);
+        position: relative;
+        top: 55px;
+        border-bottom-left-radius: 80%;
+        border-bottom-right-radius: 80%;
+      }
+
       input[type=number] {
         -moz-appearance:textfield;
       }
     </style>
   </head>
-  <body>
+  <body onload="update_selected_lang()">
     <form id="words-form" method="post" autocomplete="off">
     {{ form.csrf_token }}
       <div class="container mt-3">
+        <div class="row justify-content-end">
+          <div class="col-sm-auto">
+            <img class="img-fluid float-end icon" src="/icons/us.png" onclick="select_lang('en_US')">
+            <div id="en_US" class="selected invisible"></div>
+          </div>
+          <div class="col-sm-auto">
+            <img class="img-fluid float-end icon" src="/icons/uk.png" onclick="select_lang('en_GB')">
+            <div id="en_GB" class="selected invisible"></div>
+          </div>
+          <div class="col-sm-auto icon">
+            <img class="img-fluid float-end icon" src="/icons/fr.png" onclick="select_lang('fr_FR')">
+            <div id="fr_FR" class="selected invisible"></div>
+          </div>
+           {{ form.language() }}
+        </div>
         <div class="row">
           <div class="col form-floating mb-3">
             {{ form.letters(class="form-control form-control-lg", autocapitalize="off", autocomplete="off") }}
@@ -98,24 +136,64 @@
       </div>
     </div>
     {% endif %}
+    <div class="container-fluid" style="position: absolute; bottom: 0;">
+      <div class="row">
+        <div class="col" style="text-align: center;">
+          <a href="https://www.flaticon.com/free-icons/flag" title="flag icons">Flag icons created by Freepik - Flaticon</a>
+        </div>
+      </div>
+    </div>
     <script>
       function clear_field(field_id) {
-              const field = document.getElementById(field_id)
-              field.value = "";
-              field.focus();
+        const field = document.getElementById(field_id)
+        field.value = "";
+        field.focus();
       }
 
       function set_length(length) {
-              const form_id = 'words-form';
-              const length_field_id = 'length';
-              const letters_field_id = 'letters';
-              const length_field = document.getElementById(length_field_id);
-              const letters_field = document.getElementById(letters_field_id);
-              length_field.value = length;
-              if (letters_field.value.length != 0) {
-                      const form = document.getElementById(form_id);
-                      form.submit();
-              }
+        const form_id = 'words-form';
+        const length_field_id = 'length';
+        const letters_field_id = 'letters';
+        const length_field = document.getElementById(length_field_id);
+        const letters_field = document.getElementById(letters_field_id);
+        length_field.value = length;
+        if (letters_field.value.length != 0) {
+          const form = document.getElementById(form_id);
+          form.submit();
+        }
+      }
+
+      function select_lang(language) {
+        const form_id = 'words-form';
+        const length_field_id = 'length';
+        const letters_field_id = 'letters';
+        const length_field = document.getElementById(length_field_id);
+        const letters_field = document.getElementById(letters_field_id);
+        const language_field_id = 'language';
+        const language_field = document.getElementById(language_field_id);
+        language_field.value = language;
+        if (letters_field.value.length != 0 && length_field.value.length != 0) {
+          const form = document.getElementById(form_id);
+          form.submit();
+        } else {
+          update_selected_lang();
+        }
+      }
+
+      function update_selected_lang() {
+        const language_field_id = 'language';
+        const language_field = document.getElementById(language_field_id);
+        selected_divs = document.getElementsByClassName("selected")
+        for (let i = 0; i < selected_divs.length; i++) {
+          let div = selected_divs.item(i);
+          if (div.id == language_field.value) {
+            div.classList.add("visible");
+            div.classList.remove("invisible");
+          } else {
+            div.classList.remove("visible");
+            div.classList.add("invisible");
+          }
+        }
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>

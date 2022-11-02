@@ -46,4 +46,4 @@ EXPOSE 8000
 COPY . .
 
 # Run the application
-ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8000", "words.app:app"]

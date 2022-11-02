@@ -11,11 +11,12 @@ from flask import (
 
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
+from .constants import DEFAULT_LANGUAGE, LANGUAGES
 
-from words import solve
+from .words import solve
 
-from wtforms import IntegerField, StringField
-from wtforms.validators import InputRequired, Length, NumberRange
+from wtforms import HiddenField, IntegerField, StringField
+from wtforms.validators import AnyOf, InputRequired, Length, NumberRange
 
 SECRET_KEY = os.urandom(32)
 
@@ -37,6 +38,11 @@ class WordsForm(FlaskForm):
         validators=[InputRequired(), NumberRange(min=1)],
         render_kw={"placeholder": "0"},
     )
+    language = HiddenField(
+        label="Language",
+        validators=[InputRequired(), AnyOf(LANGUAGES)],
+        default=DEFAULT_LANGUAGE,
+    )
 
 
 @app.errorhandler(CSRFError)
@@ -50,6 +56,11 @@ def favicon():
     """Send favicon."""
     return send_from_directory(os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml")
 
+@app.route("/icons/<icon>")
+def icon(icon):
+    """Send icon."""
+    return send_from_directory(os.path.join(app.root_path, "static"), icon, mimetype="image/png")
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -57,5 +68,5 @@ def index():
     form = WordsForm(request.form)
     words = []
     if request.method == "POST" and form.validate():
-        words = solve(form.letters.data, form.length.data)
+        words = solve(form.letters.data, form.length.data, form.language.data)
     return render_template("template.html", form=form, words=words)
