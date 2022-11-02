@@ -11,12 +11,12 @@ from flask import (
 
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
-from .constants import DEFAULT_LANGUAGE, LANGUAGES
-
-from .words import solve
 
 from wtforms import HiddenField, IntegerField, StringField
 from wtforms.validators import AnyOf, InputRequired, Length, NumberRange
+
+from .constants import DEFAULT_LANGUAGE, LANGUAGES
+from .words import solve
 
 SECRET_KEY = os.urandom(32)
 
@@ -56,8 +56,9 @@ def favicon():
     """Send favicon."""
     return send_from_directory(os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml")
 
+
 @app.route("/icons/<icon>")
-def icon(icon):
+def icons(icon):
     """Send icon."""
     return send_from_directory(os.path.join(app.root_path, "static"), icon, mimetype="image/png")
 
