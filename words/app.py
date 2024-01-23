@@ -65,6 +65,18 @@ def icons(icon):
     return send_from_directory(os.path.join(app.root_path, "static"), icon, mimetype="image/png")
 
 
+@app.route("/styles/<style>")
+def styles(style):
+    """Send CSS."""
+    return send_from_directory(os.path.join(app.root_path, "static"), style, mimetype="text/css")
+
+
+@app.route("/scripts/<script>")
+def scripts(script):
+    """Send script."""
+    return send_from_directory(os.path.join(app.root_path, "static"), script, mimetype="text/javascript")
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Main page."""

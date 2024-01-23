@@ -1,0 +1,46 @@
+.centered {
+  text-align: center;
+}
+
+form #letters:placeholder-shown+button {
+  opacity: 0;
+  pointer-events: none;
+}
+
+form .clear-field {
+  position: absolute;
+  border: none;
+  background-color: var(--bs-gray-400);
+  color: var(--bs-gray-700);
+  display: block;
+  width: 2ex;
+  line-height: 16px;
+  font-size: 32px;
+  border-top-right-radius: 10%;
+  border-bottom-right-radius: 10%;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  transition: .1s;
+}
+
+img.icon {
+  height: 64px;
+}
+
+div.selected {
+  height: 3px;
+  background-color: var(--bs-primary);
+  position: relative;
+  top: 55px;
+  border-bottom-left-radius: 80%;
+  border-bottom-right-radius: 80%;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
