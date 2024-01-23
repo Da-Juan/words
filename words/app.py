@@ -23,6 +23,7 @@ SECRET_KEY = os.urandom(32)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
 app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Strict"
 csrf = CSRFProtect(app)
 
 
@@ -72,3 +73,22 @@ def index():
     if request.method == "POST" and form.validate():
         words = solve(form.letters.data, form.length.data, form.language.data)
     return render_template("template.html", form=form, words=words)
+
+
+@app.after_request
+def set_secure_headers(response):
+    """Set all relevant security cookies."""
+    response.headers["Content-Security-Policy"] = (
+        "base-uri 'none';"
+        "default-src 'none';"
+        "frame-ancestors 'none';"
+        "form-action 'self';"
+        "img-src 'self';"
+        "script-src 'self';"
+        "style-src 'self';"
+    )
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
