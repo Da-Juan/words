@@ -1,3 +1,4 @@
+"""Main CLI app module."""
 import click
 
 from .constants import DEFAULT_LANGUAGE
@@ -20,7 +21,7 @@ from .words import solve
     default=False,
     help="Should search be case sensitive (defaults to insensitive).",
 )
-def main(letters: str, length: int, language: str, case_sensitive: bool) -> None:
+def main(letters: str, length: int, language: str, *, case_sensitive: bool) -> None:
     """Run the solver from CLI."""
-    for word in solve(letters, length, language, case_sensitive):
+    for word in solve(letters, length, language, case_sensitive=case_sensitive):
         click.echo(word)

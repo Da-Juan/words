@@ -1,17 +1,19 @@
+"""Main web app module."""
 import os
+from pathlib import Path
 
 from flask import (
     Flask,
+    Response,
     redirect,
     render_template,
     request,
     send_from_directory,
     url_for,
 )
-
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
-
+from werkzeug.wrappers import Response as BaseResponse
 from wtforms import HiddenField, IntegerField, StringField
 from wtforms.validators import AnyOf, InputRequired, Length, NumberRange
 
@@ -48,38 +50,38 @@ class WordsForm(FlaskForm):
 
 
 @app.errorhandler(CSRFError)
-def handle_csrf_error(_):
+def handle_csrf_error(_: int | Exception) -> BaseResponse:
     """Redirect to index on CSRF Error."""
     return redirect(url_for("index"))
 
 
 @app.route("/favicon.svg")
-def favicon():
+def favicon() -> Response:
     """Send favicon."""
-    return send_from_directory(os.path.join(app.root_path, "static"), "favicon.svg", mimetype="image/svg+xml")
+    return send_from_directory(Path(app.root_path) / "static", "favicon.svg", mimetype="image/svg+xml")
 
 
 @app.route("/icons/<icon>")
-def icons(icon):
+def icons(icon: str) -> Response:
     """Send icon."""
-    return send_from_directory(os.path.join(app.root_path, "static"), icon, mimetype="image/png")
+    return send_from_directory(Path(app.root_path) / "static", icon, mimetype="image/png")
 
 
 @app.route("/styles/<style>")
-def styles(style):
+def styles(style: str) -> Response:
     """Send CSS."""
-    return send_from_directory(os.path.join(app.root_path, "static"), style, mimetype="text/css")
+    return send_from_directory(Path(app.root_path) / "static", style, mimetype="text/css")
 
 
 @app.route("/scripts/<script>")
-def scripts(script):
+def scripts(script: str) -> Response:
     """Send script."""
-    return send_from_directory(os.path.join(app.root_path, "static"), script, mimetype="text/javascript")
+    return send_from_directory(Path(app.root_path) / "static", script, mimetype="text/javascript")
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
-    """Main page."""
+def index() -> str:
+    """Render main page."""
     form = WordsForm(request.form)
     words = []
     if request.method == "POST" and form.validate():
@@ -88,7 +90,7 @@ def index():
 
 
 @app.after_request
-def set_secure_headers(response):
+def set_secure_headers(response: Response) -> Response:
     """Set all relevant security cookies."""
     response.headers["Content-Security-Policy"] = (
         "base-uri 'none';"

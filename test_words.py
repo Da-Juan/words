@@ -1,17 +1,17 @@
-from typing import Sequence, TypedDict
-
-from click.testing import CliRunner
+from collections.abc import Sequence
+from typing import TypedDict
 
 import pytest
+from click.testing import CliRunner
 
 from words import main, solve
-
 
 default_help_msg = ["Usage: main [OPTIONS]", "Try 'main --help' for help.", ""]
 
 
 class HeterogeneousDictionary(TypedDict):
     """Solve function paramters typing definition."""
+
     letters: str
     length: int
     language: str

@@ -1,3 +1,4 @@
+"""CLI main module."""
 from .cli import main
 from .words import solve
 
